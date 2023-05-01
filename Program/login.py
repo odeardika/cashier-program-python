@@ -2,7 +2,7 @@ import pyinputplus as pyip
 from MYSQLConnector import connect
 
 def getUserData(username: str):
-    #According to your database
+    # According to your database
     mydb = connect(addHost="localhost",addUser="root", addPassword="125125", addDB="store")
     mycursor =  mydb.cursor()
     # MYSQL code to get pass from Database
