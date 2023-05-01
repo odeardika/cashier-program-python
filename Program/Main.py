@@ -1,16 +1,12 @@
-import pyinputplus as pyip
+from login import Login
 
-def Login():        
-    print("LOGIN")
-    id = input("Input Id: ")
-    password = pyip.inputPassword("Input Password: ")
-
-    print(f"Id : {id}, Password : {password} ")
-
-    idAdmin, passAdmin =  "ode", 125125
-    if(id == idAdmin and password == passAdmin):
-        print("Berhasil Login")
-        return True
+def processLogin():
+    loginResult = Login()
+    if loginResult == "Admin Mode" :
+        print("Admin")
+    elif loginResult == "Normal Mode":
+        print("Normal")
     else:
-        print("Id dan Password Salah")
-        return False
+        print("Proses Login Gagal")
+        processLogin()
+processLogin()
