@@ -8,7 +8,7 @@ def normalMenu():
           """)
     option = input("Masukan Pilihan")
     if option == "1":
-        print("Mencari Barang")
+        pass
 normalMenu()
 
 
