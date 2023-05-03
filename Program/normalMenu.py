@@ -28,23 +28,26 @@ def findItem():
     item = [str(i)[2:-3] for i in item ]
     result = doResearch(keyword, item)
     option = input("Want to search again? (y/n) ").lower()
-    print(option)
     if option == "y":
-        findItem()
+        totalPrice, selectedItem, productPrice, quantity = findItem()
+        return totalPrice, selectedItem, productPrice, quantity
     else:
         selectedItem = input("Select Item : ")
         quantity = int(input("How many want to buy? "))
-        return float(getPrice(mycursor, selectedItem)) * quantity    
+        productPrice = float(getPrice(mycursor, selectedItem))
+        totalPrice = productPrice * quantity 
+        return totalPrice, selectedItem, productPrice, quantity
     
-def calculator(count):
-    temp = findItem()
-    count += temp
+def calculator(count, recipt):
+    totalPrice, productName, productPrice, quantity = findItem()
+    count += totalPrice
+    recipt = recipt + f"\n{quantity} {productName}\t{productPrice}"
     check = input("+/= :")
     if check == "+":
-        result = calculator(count)
-        return result
+        resultPrice, resultRecipt = calculator(count, recipt)
+        return resultPrice, resultRecipt
     else:
-        return count
+        return count, recipt
         
 def normalMenuGUI():
     print("""
@@ -55,7 +58,9 @@ def normalMenuGUI():
     option = input("Masukan Pilihan: ")
     if option == "1":
         count = float()
-        result = calculator(count)
+        recipt =  "List Product:"
+        result, recipt = calculator(count, recipt)
         print(result)
+        print(recipt)
 
 normalMenuGUI()
