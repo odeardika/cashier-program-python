@@ -34,14 +34,26 @@ def registrationUser():
     mydb.commit()
     print("New user is inserted")    
 
-# Main Menu
 # Search by Product
+def searchAndUpdateProduct():
+    #search by keyword (can item and id)
+    keyword = ""
+    newPrice = 20000
+    mydb = connect(addHost="localhost",addUser="root", addPassword="125125", addDB="store")
+    mycursor =  mydb.cursor()
+    mycursor.execute(f"UPDATE item SET price = {newPrice} WHERE nameItem = '{keyword}'")
+    mydb.commit()
+
+searchAndUpdateProduct()
+
+#Show Database
 
 def adminMenu():
     print("""
           Menu:
           1. Setting Database
           2. Register User
+          3. Show Database
           3. Exit
           """)
     option = input("Masukan Pilihan: ")

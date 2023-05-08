@@ -9,7 +9,6 @@ def doResearch(keyword, item):
         if re.search(keyword+r".*", i, re.I) != None:
             print(i)
             searchResult.append(i)
-    return searchResult
 
 def getPrice(mycursor, item):
     sql = "SELECT price FROM item where nameItem =" + f"'{item}'"
@@ -27,16 +26,22 @@ def findItem():
     item = mycursor.fetchall()
     # Get all items from DB
     item = [str(i)[2:-3] for i in item ]
-    result = doResearch(keyword, item)
+    
+    doResearch(keyword, item)
     option = input("Want to search again? (y/n) ").lower()
     if option == "y":
+        # Do recursion with findItem() to show list of item according to the keyword
         totalPrice, selectedItem, productPrice, quantity = findItem()
         return totalPrice, selectedItem, productPrice, quantity
     else:
+        # When the item, type the item name to select it
         selectedItem = input("Select Item : ")
         quantity = int(input("How many want to buy? "))
+        # To get Price of the item
         productPrice = float(getPrice(mycursor, selectedItem))
-        totalPrice = productPrice * quantity 
+        # Get the total price according to how many its buy the item
+        totalPrice = productPrice * quantity
+        # Return the result to the start of the recursion (return to calculator function)
         return totalPrice, selectedItem, productPrice, quantity
     
 def calculator(count, recipt):
@@ -45,16 +50,19 @@ def calculator(count, recipt):
     recipt = recipt + f"\n{quantity} {productName}\t{productPrice}"
     check = input("+/= :")
     if check == "+":
+        # Do recursion to calculate the total of spending
         resultPrice, resultRecipt = calculator(count, recipt)
         return resultPrice, resultRecipt
     else:
+        # Return the result to the start of the recursion
         return count, recipt
         
 def normalMenuGUI():
     print("""
           Menu:
           1. Kalkulator
-          2. Exit
+          2. Show Product
+          3. Exit
           """)
     option = input("Masukan Pilihan: ")
     if option == "1":
