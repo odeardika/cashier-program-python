@@ -34,17 +34,29 @@ def registrationUser():
     mydb.commit()
     print("New user is inserted")    
 
+def inputKeywordPrice(type):
+    if type == 1:
+        q = "Input the product name: "
+    elif type == 2:
+        q = "Input the product id"
+    keyword = input(q)
+    newPrice = pyip.inputInt("Add the new price: ")
+    return keyword, newPrice
 # Search by Product
-def searchAndUpdateProduct():
-    #search by keyword (can item and id)
-    keyword = ""
-    newPrice = 20000
+def searchAndUpdateProduct(type : int):
+    keyword, newPrice = inputKeywordPrice(type)
+    #search by itemName
+    if type == 1 :
+        sql = f"UPDATE item SET price = {newPrice} WHERE nameItem = '{keyword}'"
+    #search by id
+    elif type == 2:
+        sql = f"UPDATE item SET price = {newPrice} WHERE id = '{keyword}'"
+    
     mydb = connect(addHost="localhost",addUser="root", addPassword="125125", addDB="store")
     mycursor =  mydb.cursor()
-    mycursor.execute(f"UPDATE item SET price = {newPrice} WHERE nameItem = '{keyword}'")
+    mycursor.execute(sql)
     mydb.commit()
 
-searchAndUpdateProduct()
 
 #Show Database
 
