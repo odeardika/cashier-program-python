@@ -42,8 +42,32 @@ def inputKeywordPrice(type):
     keyword = input(q)
     newPrice = pyip.inputInt("Add the new price: ")
     return keyword, newPrice
+
+
+def showSearchProduct(typeKey, mycursor):
+    if typeKey == 1:
+        q = "Input the product name: "
+    elif typeKey == 2:
+        q = "Input the product id"
+    keyword = input(q)
+    mycursor.execute(f"SELECT * FROM item WHERE nameItem = '{keyword}'")
+    item = mycursor.fetchall()
+    print(type(item))
+    print()
+    for i in item:
+        print(i)
+    option = input("Want to search again?y/n").lower()
+    if option == "y":
+        showSearchProduct()
+        return 0
+    else :
+        return 0
+
 # Search by Product
 def searchAndUpdateProduct(type : int):
+    mydb = connect(addHost="localhost",addUser="root", addPassword="125125", addDB="store")
+    mycursor =  mydb.cursor()
+    showSearchProduct(type, mycursor)
     keyword, newPrice = inputKeywordPrice(type)
     #search by itemName
     if type == 1 :
@@ -52,11 +76,10 @@ def searchAndUpdateProduct(type : int):
     elif type == 2:
         sql = f"UPDATE item SET price = {newPrice} WHERE id = '{keyword}'"
     
-    mydb = connect(addHost="localhost",addUser="root", addPassword="125125", addDB="store")
-    mycursor =  mydb.cursor()
     mycursor.execute(sql)
     mydb.commit()
 
+searchAndUpdateProduct(type=1)
 
 #Show Database
 
