@@ -1,4 +1,5 @@
 from MYSQLConnector import connect
+from normalMenu import doResearch
 import pyinputplus as pyip
 
 # Add Product to System
@@ -46,22 +47,19 @@ def inputKeywordPrice(type):
 
 def showSearchProduct(typeKey, mycursor):
     if typeKey == 1:
-        q = "Input the product name: "
+        q = "Search the product name: "
     elif typeKey == 2:
-        q = "Input the product id"
+        q = "Search the product id"
     keyword = input(q)
-    mycursor.execute(f"SELECT * FROM item WHERE nameItem = '{keyword}'")
+    mycursor.execute(f"SELECT * FROM item")
     item = mycursor.fetchall()
-    print(type(item))
-    print()
-    for i in item:
-        print(i)
-    option = input("Want to search again?y/n").lower()
+    item = [str(i) for i in item]
+    doResearch(keyword, item)
+    option = input("Want to search again?y/n: ").lower()
     if option == "y":
-        showSearchProduct()
-        return 0
-    else :
-        return 0
+        showSearchProduct(typeKey, mycursor)
+
+        
 
 # Search by Product
 def searchAndUpdateProduct(type : int):

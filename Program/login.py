@@ -1,6 +1,7 @@
 import pyinputplus as pyip
 from MYSQLConnector import connect
 
+
 def getUserData(username: str):
     # According to your database
     mydb = connect(addHost="localhost",addUser="root", addPassword="125125", addDB="store")
@@ -19,8 +20,6 @@ def getUserData(username: str):
     
     return dataPassword, is_admin
     
-    
-
 
 def Login():        
     print("LOGIN")

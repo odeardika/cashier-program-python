@@ -3,12 +3,10 @@ import re
 
 # Research Item from Database
 def doResearch(keyword, item):
-    searchResult = []
     for i in item:
         # search string that include the keyword in the the string, re.I set it to not case-sensitive
         if re.search(keyword+r".*", i, re.I) != None:
             print(i)
-            searchResult.append(i)
 
 def getPrice(mycursor, item):
     sql = "SELECT price FROM item where nameItem =" + f"'{item}'"
