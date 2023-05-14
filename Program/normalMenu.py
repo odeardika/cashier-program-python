@@ -23,6 +23,7 @@ def findItem():
     mycursor.execute(sql)
     item = mycursor.fetchall()
     # Get all items from DB
+    # Save it in list data type
     item = [str(i)[2:-3] for i in item ]
     
     doResearch(keyword, item)
@@ -69,5 +70,3 @@ def normalMenuGUI():
         result, recipt = calculator(count, recipt)
         print(result)
         print(recipt)
-
-normalMenuGUI()

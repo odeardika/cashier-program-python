@@ -35,21 +35,22 @@ def registrationUser():
     mydb.commit()
     print("New user is inserted")    
 
-def inputKeywordPrice(type):
+# Input the Product and it's New Price
+def inputProductPrice(type):
     if type == 1:
         q = "Input the product name: "
     elif type == 2:
-        q = "Input the product id"
+        q = "Input the product id: "
     keyword = input(q)
     newPrice = pyip.inputInt("Add the new price: ")
     return keyword, newPrice
 
-
+# Show list of product depand on the keyword
 def showSearchProduct(typeKey, mycursor):
     if typeKey == 1:
         q = "Search the product name: "
     elif typeKey == 2:
-        q = "Search the product id"
+        q = "Search the product id: "
     keyword = input(q)
     mycursor.execute(f"SELECT * FROM item")
     item = mycursor.fetchall()
@@ -59,35 +60,43 @@ def showSearchProduct(typeKey, mycursor):
     if option == "y":
         showSearchProduct(typeKey, mycursor)
 
-        
 
 # Search by Product
-def searchAndUpdateProduct(type : int):
+def UpdateProduct(type : int):
     mydb = connect(addHost="localhost",addUser="root", addPassword="125125", addDB="store")
     mycursor =  mydb.cursor()
+    # To show list of item from DB
     showSearchProduct(type, mycursor)
-    keyword, newPrice = inputKeywordPrice(type)
+    # Input the Product and Price that want to get change
+    product, newPrice = inputProductPrice(type)
     #search by itemName
     if type == 1 :
-        sql = f"UPDATE item SET price = {newPrice} WHERE nameItem = '{keyword}'"
+        sql = f"UPDATE item SET price = {newPrice} WHERE nameItem = '{product}'"
     #search by id
     elif type == 2:
-        sql = f"UPDATE item SET price = {newPrice} WHERE id = '{keyword}'"
-    
+        sql = f"UPDATE item SET price = {newPrice} WHERE id = '{product}'"
+        
     mycursor.execute(sql)
     mydb.commit()
 
-searchAndUpdateProduct(type=1)
 
 #Show Database
-
-def adminMenu():
+def showDB():
+    mydb = connect(addHost="localhost",addUser="root", addPassword="125125", addDB="store")
+    mycursor =  mydb.cursor()
+    mycursor.execute(f"SELECT * FROM item")
+    item = mycursor.fetchall()
+    for i in item:
+        print(i)
+    showSearchProduct(typeKey=1,mycursor=mycursor)
+    
+def menu():
     print("""
           Menu:
           1. Setting Database
           2. Register User
           3. Show Database
-          3. Exit
+          4. Exit
           """)
     option = input("Masukan Pilihan: ")
     if option == "1":
@@ -104,4 +113,15 @@ def adminMenu():
                   2. Search ID
                   3. Exit
                   """)
+            optiSearch = pyip.inputInt("Input yours choice: ")
+            if optiSearch == 1:
+                UpdateProduct(type=1)
+            elif optiSearch == 2:
+                UpdateProduct(type=2)
+    if option == "3":
+        showDB()
         
+
+menu()
+                
+                
